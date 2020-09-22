@@ -1,0 +1,366 @@
+#include<bits/stdc++.h>
+#include<time.h>
+
+int ar1[1000],ar2[1000],ar3[1000];
+int comp1=0,comp2=0,comp3=0;
+int move1=0,move2=0,move3=0,move4=0;
+
+void bubbleSort(int ar1[],int n)
+{
+    int k=n;
+    while(k!=0)
+    {
+        int t=0;
+        for(int j=0 ; j<k ; j++)
+        {
+            if(ar1[j]>ar1[j+1])
+            {
+                comp1++;
+                int temp=ar1[j+1];
+                ar1[j+1]=ar1[j];
+                ar1[j]=temp;
+                t=j;
+                move1++;
+            }
+        }
+        k=t;
+    }
+    printf("\nSorted Elements : ");
+    for(int i=0 ; i<n ; i++)
+        printf ("%d ",ar1[i]);
+}
+
+void insertationSort(int ar2[],int n)
+{
+    int art[n+1];
+    art[0]=(pow(2,32)-1)*-1;
+
+    for(int i=0 ; i<n ; i++)
+        art[i+1]=ar2[i];
+
+    for(int j=1 ; j<=n ; j++)
+    {
+        int t=art[j];
+        int i=j-1;
+        while(t<art[i])
+        {
+            comp2++;
+            art[i+1]=art[i];
+            i--;
+        }
+        art[i+1]=t;
+        move2++;
+    }
+
+    printf("\nSorted Elements : ");
+    for(int i=1 ; i<=n ; i++)
+        printf ("%d ",art[i]);
+}
+
+void selectionSort(int ar3[],int n)
+{
+    for(int i=n-1 ; i>=0 ; i--)
+    {
+        int t=0;
+        for(int j=1 ; j<=i ; j++)
+        {
+            if(ar3[t]<ar3[j])
+            {
+                comp3++;
+                t=j;
+            }
+        }
+        int temp=ar3[t];
+        ar3[t]=ar3[i];
+        ar3[i]=temp;
+        move3++;
+    }
+    printf("\nSorted Elements : ");
+    for(int i=0 ; i<n ; i++)
+        printf ("%d ",ar3[i]);
+}
+
+int binarySearch(int ar[],int n,int x)
+{
+    int left = 0;
+    int right = n-1;
+
+    while (left<= right){
+        int mid = left+(right-left)/2;
+
+        if (ar[mid] == x)
+            return mid;
+
+        if (ar[mid] < x){
+            left = mid + 1;
+            move4++;
+        }
+
+        else{
+            right = mid - 1;
+            move4++;
+        }
+    }
+    return -1;
+}
+
+int main()
+{
+    int ar[1000];
+    printf("Size of Array ");
+    int n;
+    scanf ("%d",&n);
+
+    for(int i=0 ; i<n ; i++){
+        ar[i]=rand()%100+1;
+    }
+
+    for(int i=0 ; i<n ; i++){
+        printf("%d ",ar[i]);
+    }
+
+    int key;
+
+    printf("\n\nSelect your sorting algorithm \n");
+    printf("1.Bubble Sort \n");
+    printf("2.Insertion Sort \n");
+    printf("3.Selection Sort \n");
+
+    scanf("%d",&key);
+
+            if(key==1)
+            {
+                clock_t t1,t2,t3,t4;
+
+                t1=clock();
+                bubbleSort(ar,n);
+                t2=clock();
+
+                double time = difftime(t2, t1)/CLOCKS_PER_SEC;
+
+                printf("\n");
+                printf("\nNumber of data comparison : %d\n",comp1);
+                printf("Number of data movement : %d\n",move1);
+                printf("Time consuming : %.3f\n\n",time);
+
+                int x;
+                printf("Search a value ");
+                scanf("%d",&x);
+                t3=clock();
+                int result = binarySearch(ar, n , x);
+                t4=clock();
+
+                double timeb = difftime(t2, t1)/CLOCKS_PER_SEC;
+
+                if(result == -1)
+                        printf("Element is not present"
+                            " in array\n");
+                else{
+                        printf("Element is present at "
+                            "index %d \n",
+                            result);
+                }
+                printf("Number of data movement : %d\n",move4);
+                printf("Time consuming : %.3f\n\n",timeb);
+
+
+
+
+            }
+            else if(key==2)
+            {
+                clock_t t1,t2,t3,t4;
+
+                t1=clock();
+                selectionSort(ar,n);
+                t2=clock();
+
+                double time = difftime(t2, t1)/CLOCKS_PER_SEC;
+
+                printf("\n");
+                printf("\nNumber of data comparison : %d\n",comp2);
+                printf("Number of data movement : %d\n",move2);
+                printf("Time consuming : %.3f\n",time);
+
+                int x;
+                printf("Search a value ");
+                scanf("%d",&x);
+                t3=clock();
+                int result = binarySearch(ar, n , x);
+                t4=clock();
+
+                double timeb = difftime(t4, t3)/CLOCKS_PER_SEC;
+
+                if(result == -1)
+                        printf("Element is not present"
+                            " in array\n");
+                else{
+                        printf("Element is present at "
+                            "index %d \n",
+                            result);
+                }
+                printf("Number of data movement : %d\n",move4);
+                printf("Time consuming : %.3f\n\n",timeb);
+            }
+
+            else if(key==3)
+            {
+                clock_t t1,t2,t3,t4;
+
+                t1=clock();
+                insertationSort(ar,n);
+                t2=clock();
+
+                double time = difftime(t2, t1)/CLOCKS_PER_SEC;
+
+                printf("\n");
+                printf("\nNumber of data comparison : %d\n",comp3);
+                printf("Number of data movement : %d\n",move3);
+                printf("Time consuming : %.3f\n",time);
+
+                int x;
+                printf("Search a value ");
+                scanf("%d",&x);
+                t3=clock();
+                int result = binarySearch(ar, n , x);
+                t4=clock();
+
+                double timeb = difftime(t4, t3)/CLOCKS_PER_SEC;
+
+                if(result == -1)
+                        printf("Element is not present"
+                            " in array\n");
+                else{
+                        printf("Element is present at "
+                            "index %d \n",
+                            result);
+                }
+                printf("Number of data movement : %d\n",move4);
+                printf("Time consuming : %.3f\n\n",timeb);
+            }
+            else
+            {
+                 printf("\tError Data");
+            }
+
+    return 0;
+}
+
+
+
+
+
+#include<bits/stdc++.h>
+#include<stdio.h>
+#include<stdlib.h>
+
+using namespace std;
+typedef struct Node;
+struct Node{
+    int data;
+    Node *link;
+};
+struct Node *head;
+
+void insertFirst(Node *head,int data){
+    Node *current= (Node*)malloc(sizeof(Node));
+    current-> data = data;
+    current->link = head->link;
+    head->link = current;
+}
+
+void insertLast(Node *head,int data){
+    Node *current= (Node*)malloc(sizeof(Node));
+    Node *temp = head;
+    while(temp->link!=head){
+        temp = temp->link;
+    }
+    current-> data = data;
+    current->link = temp->link;
+    temp->link = current;
+}
+
+void deleteFirst(Node *head){
+    Node *temp;
+    if(head->link!=head){
+        temp=head->link;
+        head->link=temp->link;
+    }
+}
+
+void deleteLast(Node *head){
+    Node *pred;
+    Node *temp;
+    pred=head;
+    temp=pred->link;
+    if(head->link!=head){
+        while(temp->link!=head){
+            pred=temp;
+            temp=temp->link;
+        }
+        pred->link=head;
+    }
+}
+
+void printList(Node *head){
+    Node* current = head->link;
+    while(current != head){
+            printf("%d ",current->data);
+            current=current->link;
+    }
+    printf("\n");
+}
+
+int main(){
+    int i,n,num,choise,checker;
+    head=(Node *) malloc(sizeof(Node));
+    head->link=head;
+
+    while(1)
+    {
+    int ch;
+    printf("Enter your choice : \n");
+    printf("1.Insert First : \n");
+    printf("2.Insert Last : \n");
+    printf("3.Delete First : \n");
+    printf("3.Delete Last : \n");
+
+
+    scanf("%d",&ch);
+    switch(ch)
+    {
+    case 1 :
+    {
+        int data;
+        printf("Enter data \n");
+        scanf("%d",&data);
+        insertFirst(head,data);
+        printList(head);
+    }
+    case 2 :
+    {
+        int data;
+        printf("Enter data \n");
+        scanf("%d",&data);
+        insertLast(head,data);
+        printList(head);
+    }
+    case 3:
+        {
+            deleteFirst(head);
+            printList(head);
+        }
+    case 4:
+        {
+            deleteLast(head);
+            printList(head);
+        }
+
+    }
+    }
+
+
+
+    return 0;
+}
+
